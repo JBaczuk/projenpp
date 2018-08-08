@@ -6,3 +6,4 @@ configure
 depcomp
 Makefile.in
 missing
+install-sh
