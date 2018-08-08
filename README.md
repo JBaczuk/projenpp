@@ -4,6 +4,7 @@ A simple, cli Bitcoin wallet written in C++. Open source, transparent, and built
 
 ## Installation
 ```
+$ ./autogen.sh
 $ ./configure
 $ make
 $ sudo make install
