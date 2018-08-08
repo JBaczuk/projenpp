@@ -1,2 +1,3 @@
 AUTOMAKE_OPTIONS = gnu
-SUBDIRS = src
+SUBDIRS = src test
+TESTS = btc_wallet_tests

@@ -143,6 +143,7 @@ on parallels-vm
 config.status:841: creating Makefile
 config.status:841: creating src/Makefile
 config.status:841: creating config.h
+config.status:1022: config.h is unchanged
 config.status:1070: executing depfiles commands
 
 ## ---------------- ##
