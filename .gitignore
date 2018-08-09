@@ -12,3 +12,7 @@ config.status
 test-driver
 config.sub
 compile
+config.h
+config.log
+stamp-h1
+test-suite.log
