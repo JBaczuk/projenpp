@@ -1,6 +1,6 @@
-# BTC Wallet
+# Projen++
 
-A simple, cli Bitcoin wallet written in C++. Open source, transparent, and built on the cryptography libraries used in Bitcoin.
+A project generator for c++ autotools projects.
 
 ## Installation
 ```
