@@ -7,3 +7,8 @@ depcomp
 Makefile.in
 missing
 install-sh
+config.guess
+config.status
+test-driver
+config.sub
+compile
