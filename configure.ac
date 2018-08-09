@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([projen++], [0.1.0], [https://github.com/JBaczuk/projenpp/issues])
+AC_INIT([projenpp], [0.1.0], [https://github.com/JBaczuk/projenpp/issues])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])

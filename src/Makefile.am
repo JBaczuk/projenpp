@@ -1,2 +1,2 @@
-bin_PROGRAMS = projen++
-btc_wallet_SOURCES = main.cpp testfunc.cpp
+bin_PROGRAMS = projenpp
+projenpp_SOURCES = main.cpp testfuncs.cpp
