@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([btc_wallet], [0.1.0], [Jordan.Baczuk@gmail.com])
+AC_INIT([projen++], [0.1.0], [https://github.com/JBaczuk/projenpp/issues])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])

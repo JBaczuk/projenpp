@@ -16,3 +16,5 @@ config.h
 config.log
 stamp-h1
 test-suite.log
+Makefile
+*.o
