@@ -14,7 +14,6 @@
 
 
 
-
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
     false; \
@@ -86,10 +85,14 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = btc_wallet_tests$(EXEEXT)
+build_triplet = x86_64-pc-linux-gnu
+host_triplet = x86_64-pc-linux-gnu
+check_PROGRAMS = btc_wallet_tests$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
+	$(top_srcdir)/m4/ax_boost_unit_test_framework.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -97,12 +100,13 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
-PROGRAMS = $(bin_PROGRAMS)
 am_btc_wallet_tests_OBJECTS = btc_wallet_tests-runner.$(OBJEXT) \
 	btc_wallet_tests-main_tests.$(OBJEXT)
 btc_wallet_tests_OBJECTS = $(am_btc_wallet_tests_OBJECTS)
-btc_wallet_tests_LDADD = $(LDADD)
+am__DEPENDENCIES_1 =
+btc_wallet_tests_DEPENDENCIES = $(am__DEPENDENCIES_1)
+btc_wallet_tests_LINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+	$(btc_wallet_tests_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -171,6 +175,12 @@ AUTOCONF = ${SHELL} /home/parallels/Documents/btc_wallet/missing autoconf
 AUTOHEADER = ${SHELL} /home/parallels/Documents/btc_wallet/missing autoheader
 AUTOMAKE = ${SHELL} /home/parallels/Documents/btc_wallet/missing automake-1.15
 AWK = mawk
+BOOST_CPPFLAGS = -I/usr/include
+BOOST_LDFLAGS = -L/usr/lib/x86_64-linux-gnu
+BOOST_UNIT_TEST_FRAMEWORK_LIB = -lboost_unit_test_framework
+CC = gcc
+CCDEPMODE = depmode=gcc3
+CFLAGS = -g -O2
 CPPFLAGS = 
 CXX = g++
 CXXDEPMODE = depmode=gcc3
@@ -210,6 +220,7 @@ abs_builddir = /home/parallels/Documents/btc_wallet/test
 abs_srcdir = /home/parallels/Documents/btc_wallet/test
 abs_top_builddir = /home/parallels/Documents/btc_wallet
 abs_top_srcdir = /home/parallels/Documents/btc_wallet
+ac_ct_CC = gcc
 ac_ct_CXX = g++
 am__include = include
 am__leading_dot = .
@@ -217,14 +228,22 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
+build = x86_64-pc-linux-gnu
 build_alias = 
+build_cpu = x86_64
+build_os = linux-gnu
+build_vendor = pc
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
+host = x86_64-pc-linux-gnu
 host_alias = 
+host_cpu = x86_64
+host_os = linux-gnu
+host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -249,8 +268,10 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
+btc_wallet_tests_CPPFLAGS = -I../src/ ${BOOST_CPPFLAGS}
+btc_wallet_tests_LDFLAGS = ${BOOST_LDFLAGS}
+btc_wallet_tests_LDADD = ${BOOST_UNIT_TEST_FRAMEWORK_LIB}
 btc_wallet_tests_SOURCES = runner.cpp main_tests.cpp
-btc_wallet_tests_CPPFLAGS = -I../src/
 all: all-am
 
 .SUFFIXES:
@@ -284,52 +305,13 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-install-binPROGRAMS: $(bin_PROGRAMS)
-	@$(NORMAL_INSTALL)
-	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
-	fi; \
-	for p in $$list; do echo "$$p $$p"; done | \
-	sed 's/$(EXEEXT)$$//' | \
-	while read p p1; do if test -f $$p \
-	  ; then echo "$$p"; echo "$$p"; else :; fi; \
-	done | \
-	sed -e 'p;s,.*/,,;n;h' \
-	    -e 's|.*|.|' \
-	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
-	sed 'N;N;N;s,\n, ,g' | \
-	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
-	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
-	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
-	    else { print "f", $$3 "/" $$4, $$1; } } \
-	  END { for (d in files) print "f", d, files[d] }' | \
-	while read type dir files; do \
-	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
-	    test -z "$$files" || { \
-	      echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
-	      $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
-	    } \
-	; done
 
-uninstall-binPROGRAMS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
-	files=`for p in $$list; do echo "$$p"; done | \
-	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
-	      -e 's/$$/$(EXEEXT)/' \
-	`; \
-	test -n "$$list" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(bindir)' && rm -f" $$files ")"; \
-	cd "$(DESTDIR)$(bindir)" && rm -f $$files
-
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+clean-checkPROGRAMS:
+	-test -z "$(check_PROGRAMS)" || rm -f $(check_PROGRAMS)
 
 btc_wallet_tests$(EXEEXT): $(btc_wallet_tests_OBJECTS) $(btc_wallet_tests_DEPENDENCIES) $(EXTRA_btc_wallet_tests_DEPENDENCIES) 
 	@rm -f btc_wallet_tests$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(btc_wallet_tests_OBJECTS) $(btc_wallet_tests_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(btc_wallet_tests_LINK) $(btc_wallet_tests_OBJECTS) $(btc_wallet_tests_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -465,12 +447,10 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
-	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
-	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -503,7 +483,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-checkPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -529,7 +509,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am:
 
 install-html: install-html-am
 
@@ -568,23 +548,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am:
 
-.MAKE: install-am install-strip
+.MAKE: check-am install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
-	clean-binPROGRAMS clean-generic cscopelist-am ctags ctags-am \
+	clean-checkPROGRAMS clean-generic cscopelist-am ctags ctags-am \
 	distclean distclean-compile distclean-generic distclean-tags \
 	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
-	ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am
 
 .PRECIOUS: Makefile
 

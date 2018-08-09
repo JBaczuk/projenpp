@@ -1,6 +1,12 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* define if the Boost library is available */
+#define HAVE_BOOST /**/
+
+/* define if the Boost::Unit_Test_Framework library is available */
+#define HAVE_BOOST_UNIT_TEST_FRAMEWORK /**/
+
 /* Name of package */
 #define PACKAGE "btc_wallet"
 

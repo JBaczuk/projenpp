@@ -7,10 +7,15 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
+# Specify the directory of additional local Autoconf macros.
+AC_CONFIG_MACRO_DIR([m4])
+
 # Checks for programs.
 AC_PROG_CXX
 
 # Checks for libraries.
+AX_BOOST_BASE([1.47.0])
+AX_BOOST_UNIT_TEST_FRAMEWORK
 
 # Checks for header files.
 

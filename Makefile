@@ -85,9 +85,13 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+build_triplet = x86_64-pc-linux-gnu
+host_triplet = x86_64-pc-linux-gnu
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
+	$(top_srcdir)/m4/ax_boost_unit_test_framework.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
@@ -359,8 +363,8 @@ TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
 DIST_SUBDIRS = $(SUBDIRS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in AUTHORS \
-	COPYING ChangeLog INSTALL NEWS README depcomp install-sh \
-	missing test-driver
+	COPYING ChangeLog INSTALL NEWS README compile config.guess \
+	config.sub depcomp install-sh missing test-driver
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -410,6 +414,12 @@ AUTOCONF = ${SHELL} /home/parallels/Documents/btc_wallet/missing autoconf
 AUTOHEADER = ${SHELL} /home/parallels/Documents/btc_wallet/missing autoheader
 AUTOMAKE = ${SHELL} /home/parallels/Documents/btc_wallet/missing automake-1.15
 AWK = mawk
+BOOST_CPPFLAGS = -I/usr/include
+BOOST_LDFLAGS = -L/usr/lib/x86_64-linux-gnu
+BOOST_UNIT_TEST_FRAMEWORK_LIB = -lboost_unit_test_framework
+CC = gcc
+CCDEPMODE = depmode=gcc3
+CFLAGS = -g -O2
 CPPFLAGS = 
 CXX = g++
 CXXDEPMODE = depmode=gcc3
@@ -449,6 +459,7 @@ abs_builddir = /home/parallels/Documents/btc_wallet
 abs_srcdir = /home/parallels/Documents/btc_wallet
 abs_top_builddir = /home/parallels/Documents/btc_wallet
 abs_top_srcdir = /home/parallels/Documents/btc_wallet
+ac_ct_CC = gcc
 ac_ct_CXX = g++
 am__include = include
 am__leading_dot = .
@@ -456,14 +467,22 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
+build = x86_64-pc-linux-gnu
 build_alias = 
+build_cpu = x86_64
+build_os = linux-gnu
+build_vendor = pc
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
+host = x86_64-pc-linux-gnu
 host_alias = 
+host_cpu = x86_64
+host_os = linux-gnu
+host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
@@ -490,7 +509,7 @@ top_builddir = .
 top_srcdir = .
 AUTOMAKE_OPTIONS = gnu
 SUBDIRS = src test
-TESTS = btc_wallet_tests
+TESTS = test/btc_wallet_tests
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -792,9 +811,9 @@ recheck: all
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-btc_wallet_tests.log: btc_wallet_tests
-	@p='btc_wallet_tests'; \
-	b='btc_wallet_tests'; \
+test/btc_wallet_tests.log: test/btc_wallet_tests
+	@p='test/btc_wallet_tests'; \
+	b='test/btc_wallet_tests'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

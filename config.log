@@ -44,33 +44,33 @@ PATH: /snap/bin
 ## Core tests. ##
 ## ----------- ##
 
-configure:1845: checking for a BSD-compatible install
-configure:1913: result: /usr/bin/install -c
-configure:1924: checking whether build environment is sane
-configure:1979: result: yes
-configure:2130: checking for a thread-safe mkdir -p
-configure:2169: result: /bin/mkdir -p
-configure:2176: checking for gawk
-configure:2206: result: no
-configure:2176: checking for mawk
-configure:2192: found /usr/bin/mawk
-configure:2203: result: mawk
-configure:2214: checking whether make sets $(MAKE)
-configure:2236: result: yes
-configure:2265: checking whether make supports nested variables
-configure:2282: result: yes
-configure:2471: checking for g++
-configure:2487: found /usr/bin/g++
-configure:2498: result: g++
-configure:2525: checking for C++ compiler version
-configure:2534: g++ --version >&5
+configure:1975: checking for a BSD-compatible install
+configure:2043: result: /usr/bin/install -c
+configure:2054: checking whether build environment is sane
+configure:2109: result: yes
+configure:2260: checking for a thread-safe mkdir -p
+configure:2299: result: /bin/mkdir -p
+configure:2306: checking for gawk
+configure:2336: result: no
+configure:2306: checking for mawk
+configure:2322: found /usr/bin/mawk
+configure:2333: result: mawk
+configure:2344: checking whether make sets $(MAKE)
+configure:2366: result: yes
+configure:2395: checking whether make supports nested variables
+configure:2412: result: yes
+configure:2604: checking for g++
+configure:2620: found /usr/bin/g++
+configure:2631: result: g++
+configure:2658: checking for C++ compiler version
+configure:2667: g++ --version >&5
 g++ (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
 Copyright (C) 2015 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:2545: $? = 0
-configure:2534: g++ -v >&5
+configure:2678: $? = 0
+configure:2667: g++ -v >&5
 Using built-in specs.
 COLLECT_GCC=g++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -78,52 +78,114 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 5.4.0-6ubuntu1~16.04.10' --with-bugurl=file:///usr/share/doc/gcc-5/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-5 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-5-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-5-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-5-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
-configure:2545: $? = 0
-configure:2534: g++ -V >&5
+configure:2678: $? = 0
+configure:2667: g++ -V >&5
 g++: error: unrecognized command line option '-V'
 g++: fatal error: no input files
 compilation terminated.
-configure:2545: $? = 1
-configure:2534: g++ -qversion >&5
+configure:2678: $? = 1
+configure:2667: g++ -qversion >&5
 g++: error: unrecognized command line option '-qversion'
 g++: fatal error: no input files
 compilation terminated.
-configure:2545: $? = 1
-configure:2565: checking whether the C++ compiler works
-configure:2587: g++    conftest.cpp  >&5
-configure:2591: $? = 0
-configure:2639: result: yes
-configure:2642: checking for C++ compiler default output file name
-configure:2644: result: a.out
-configure:2650: checking for suffix of executables
-configure:2657: g++ -o conftest    conftest.cpp  >&5
-configure:2661: $? = 0
-configure:2683: result: 
-configure:2705: checking whether we are cross compiling
-configure:2713: g++ -o conftest    conftest.cpp  >&5
-configure:2717: $? = 0
-configure:2724: ./conftest
-configure:2728: $? = 0
-configure:2743: result: no
-configure:2748: checking for suffix of object files
-configure:2770: g++ -c   conftest.cpp >&5
-configure:2774: $? = 0
-configure:2795: result: o
-configure:2799: checking whether we are using the GNU C++ compiler
-configure:2818: g++ -c   conftest.cpp >&5
-configure:2818: $? = 0
-configure:2827: result: yes
-configure:2836: checking whether g++ accepts -g
-configure:2856: g++ -c -g  conftest.cpp >&5
-configure:2856: $? = 0
-configure:2897: result: yes
-configure:2931: checking for style of include used by make
-configure:2959: result: GNU
-configure:2985: checking dependency style of g++
-configure:3096: result: gcc3
-configure:3231: checking that generated files are newer than configure
-configure:3237: result: done
-configure:3260: creating ./config.status
+configure:2678: $? = 1
+configure:2698: checking whether the C++ compiler works
+configure:2720: g++    conftest.cpp  >&5
+configure:2724: $? = 0
+configure:2772: result: yes
+configure:2775: checking for C++ compiler default output file name
+configure:2777: result: a.out
+configure:2783: checking for suffix of executables
+configure:2790: g++ -o conftest    conftest.cpp  >&5
+configure:2794: $? = 0
+configure:2816: result: 
+configure:2838: checking whether we are cross compiling
+configure:2846: g++ -o conftest    conftest.cpp  >&5
+configure:2850: $? = 0
+configure:2857: ./conftest
+configure:2861: $? = 0
+configure:2876: result: no
+configure:2881: checking for suffix of object files
+configure:2903: g++ -c   conftest.cpp >&5
+configure:2907: $? = 0
+configure:2928: result: o
+configure:2932: checking whether we are using the GNU C++ compiler
+configure:2951: g++ -c   conftest.cpp >&5
+configure:2951: $? = 0
+configure:2960: result: yes
+configure:2969: checking whether g++ accepts -g
+configure:2989: g++ -c -g  conftest.cpp >&5
+configure:2989: $? = 0
+configure:3030: result: yes
+configure:3064: checking for style of include used by make
+configure:3092: result: GNU
+configure:3118: checking dependency style of g++
+configure:3229: result: gcc3
+configure:3250: checking build system type
+configure:3264: result: x86_64-pc-linux-gnu
+configure:3284: checking host system type
+configure:3297: result: x86_64-pc-linux-gnu
+configure:3366: checking for boostlib >= 1.47.0
+configure:3446: g++ -c -g -O2  -I/usr/include conftest.cpp >&5
+configure:3446: $? = 0
+configure:3448: result: yes
+configure:3642: checking for gcc
+configure:3658: found /usr/bin/gcc
+configure:3669: result: gcc
+configure:3898: checking for C compiler version
+configure:3907: gcc --version >&5
+gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+configure:3918: $? = 0
+configure:3907: gcc -v >&5
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 5.4.0-6ubuntu1~16.04.10' --with-bugurl=file:///usr/share/doc/gcc-5/README.Bugs --enable-languages=c,ada,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-5 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-libmpx --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-5-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-5-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-5-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
+configure:3918: $? = 0
+configure:3907: gcc -V >&5
+gcc: error: unrecognized command line option '-V'
+gcc: fatal error: no input files
+compilation terminated.
+configure:3918: $? = 1
+configure:3907: gcc -qversion >&5
+gcc: error: unrecognized command line option '-qversion'
+gcc: fatal error: no input files
+compilation terminated.
+configure:3918: $? = 1
+configure:3922: checking whether we are using the GNU C compiler
+configure:3941: gcc -c   conftest.c >&5
+configure:3941: $? = 0
+configure:3950: result: yes
+configure:3959: checking whether gcc accepts -g
+configure:3979: gcc -c -g  conftest.c >&5
+configure:3979: $? = 0
+configure:4020: result: yes
+configure:4037: checking for gcc option to accept ISO C89
+configure:4100: gcc  -c -g -O2  conftest.c >&5
+configure:4100: $? = 0
+configure:4113: result: none needed
+configure:4138: checking whether gcc understands -c and -o together
+configure:4160: gcc -c conftest.c -o conftest2.o
+configure:4163: $? = 0
+configure:4160: gcc -c conftest.c -o conftest2.o
+configure:4163: $? = 0
+configure:4175: result: yes
+configure:4194: checking dependency style of gcc
+configure:4305: result: gcc3
+configure:4352: checking whether the Boost::Unit_Test_Framework library is available
+configure:4375: g++ -c -g -O2  -I/usr/include conftest.cpp >&5
+configure:4375: $? = 0
+configure:4389: result: yes
+configure:4617: checking that generated files are newer than configure
+configure:4623: result: done
+configure:4650: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -140,20 +202,26 @@ generated by GNU Autoconf 2.69.  Invocation command line was
 
 on parallels-vm
 
-config.status:842: creating Makefile
-config.status:842: creating src/Makefile
-config.status:842: creating test/Makefile
-config.status:842: creating config.h
-config.status:1023: config.h is unchanged
-config.status:1071: executing depfiles commands
+config.status:861: creating Makefile
+config.status:861: creating src/Makefile
+config.status:861: creating test/Makefile
+config.status:861: creating config.h
+config.status:1042: config.h is unchanged
+config.status:1090: executing depfiles commands
 
 ## ---------------- ##
 ## Cache variables. ##
 ## ---------------- ##
 
+ac_cv_build=x86_64-pc-linux-gnu
+ac_cv_c_compiler_gnu=yes
 ac_cv_cxx_compiler_gnu=yes
 ac_cv_env_CCC_set=
 ac_cv_env_CCC_value=
+ac_cv_env_CC_set=
+ac_cv_env_CC_value=
+ac_cv_env_CFLAGS_set=
+ac_cv_env_CFLAGS_value=
 ac_cv_env_CPPFLAGS_set=
 ac_cv_env_CPPFLAGS_value=
 ac_cv_env_CXXFLAGS_set=
@@ -170,15 +238,22 @@ ac_cv_env_host_alias_set=
 ac_cv_env_host_alias_value=
 ac_cv_env_target_alias_set=
 ac_cv_env_target_alias_value=
+ac_cv_host=x86_64-pc-linux-gnu
 ac_cv_objext=o
 ac_cv_path_install='/usr/bin/install -c'
 ac_cv_path_mkdir=/bin/mkdir
 ac_cv_prog_AWK=mawk
+ac_cv_prog_ac_ct_CC=gcc
 ac_cv_prog_ac_ct_CXX=g++
+ac_cv_prog_cc_c89=
+ac_cv_prog_cc_g=yes
 ac_cv_prog_cxx_g=yes
 ac_cv_prog_make_make_set=yes
+am_cv_CC_dependencies_compiler_type=gcc3
 am_cv_CXX_dependencies_compiler_type=gcc3
 am_cv_make_support_nested_variables=yes
+am_cv_prog_cc_c_o=yes
+ax_cv_boost_unit_test_framework=yes
 
 ## ----------------- ##
 ## Output variables. ##
@@ -197,6 +272,12 @@ AUTOCONF='${SHELL} /home/parallels/Documents/btc_wallet/missing autoconf'
 AUTOHEADER='${SHELL} /home/parallels/Documents/btc_wallet/missing autoheader'
 AUTOMAKE='${SHELL} /home/parallels/Documents/btc_wallet/missing automake-1.15'
 AWK='mawk'
+BOOST_CPPFLAGS='-I/usr/include'
+BOOST_LDFLAGS='-L/usr/lib/x86_64-linux-gnu'
+BOOST_UNIT_TEST_FRAMEWORK_LIB='-lboost_unit_test_framework'
+CC='gcc'
+CCDEPMODE='depmode=gcc3'
+CFLAGS='-g -O2'
 CPPFLAGS=''
 CXX='g++'
 CXXDEPMODE='depmode=gcc3'
@@ -231,9 +312,12 @@ SET_MAKE=''
 SHELL='/bin/bash'
 STRIP=''
 VERSION='0.1.0'
+ac_ct_CC='gcc'
 ac_ct_CXX='g++'
 am__EXEEXT_FALSE=''
 am__EXEEXT_TRUE='#'
+am__fastdepCC_FALSE='#'
+am__fastdepCC_TRUE=''
 am__fastdepCXX_FALSE='#'
 am__fastdepCXX_TRUE=''
 am__include='include'
@@ -244,13 +328,21 @@ am__quote=''
 am__tar='$${TAR-tar} chof - "$$tardir"'
 am__untar='$${TAR-tar} xf -'
 bindir='${exec_prefix}/bin'
+build='x86_64-pc-linux-gnu'
 build_alias=''
+build_cpu='x86_64'
+build_os='linux-gnu'
+build_vendor='pc'
 datadir='${datarootdir}'
 datarootdir='${prefix}/share'
 docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
 dvidir='${docdir}'
 exec_prefix='${prefix}'
+host='x86_64-pc-linux-gnu'
 host_alias=''
+host_cpu='x86_64'
+host_os='linux-gnu'
+host_vendor='pc'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
@@ -285,5 +377,42 @@ target_alias=''
 #define PACKAGE_URL ""
 #define PACKAGE "btc_wallet"
 #define VERSION "0.1.0"
+#define HAVE_BOOST /**/
+#define HAVE_BOOST_UNIT_TEST_FRAMEWORK /**/
 
 configure: exit 0
+
+## ---------------------- ##
+## Running config.status. ##
+## ---------------------- ##
+
+This file was extended by btc_wallet config.status 0.1.0, which was
+generated by GNU Autoconf 2.69.  Invocation command line was
+
+  CONFIG_FILES    = 
+  CONFIG_HEADERS  = 
+  CONFIG_LINKS    = 
+  CONFIG_COMMANDS = 
+  $ ./config.status Makefile
+
+on parallels-vm
+
+config.status:861: creating Makefile
+
+## ---------------------- ##
+## Running config.status. ##
+## ---------------------- ##
+
+This file was extended by btc_wallet config.status 0.1.0, which was
+generated by GNU Autoconf 2.69.  Invocation command line was
+
+  CONFIG_FILES    = 
+  CONFIG_HEADERS  = 
+  CONFIG_LINKS    = 
+  CONFIG_COMMANDS = 
+  $ ./config.status test/Makefile depfiles
+
+on parallels-vm
+
+config.status:861: creating test/Makefile
+config.status:1090: executing depfiles commands
