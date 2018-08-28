@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# Read in user options
+read -p "What is the name of your project? " projName
+read -p "Bug reporting email/url? " bugAddress
+read -p "Boost Unit Tests? yN " boostUnitTests
+version=0.1.0
+bUT=false;
+
+if [ "$boostUnitTests" = "Y" ] || [ "$boostUnitTests" = "y" ]; then
+    bUT=true;
+fi
+
+eval mkdir -p $projName/src
+if [ "$bUT" = true ]; then
+    mkdir -p $projName/test
+fi
+echo "#include <iostream>" >> $projName/src/main.cpp
+echo "" >> $projName/src/main.cpp
+echo "using namespace std;" >> $projName/src/main.cpp
+if [ "$bUT" = true ]; then
+    echo "" >> $projName/src/main.cpp
+    echo "int testfunc(int a, int b)" >> $projName/src/main.cpp
+    echo "{" >> $projName/src/main.cpp
+    echo "    return a + b;" >> $projName/src/main.cpp
+    echo "}" >> $projName/src/main.cpp
+    echo "" >> $projName/src/main.cpp
+
+    echo "#ifndef MAIN_H" >> $projName/src/main.hpp
+    echo "#define MAIN_H" >> $projName/src/main.hpp
+    echo "" >> $projName/src/main.hpp
+    echo "int testfunc(int a, int b);" >> $projName/src/main.hpp
+    echo "" >> $projName/src/main.hpp
+    echo "#endif" >> $projName/src/main.hpp
+    echo "" >> $projName/src/main.hpp
+
+    printf "#define BOOST_AUTO_TEST_MAIN\n#define BOOST_TEST_DYN_LINK\n#include <boost/test/auto_unit_test.hpp>" >> $projName/test/runner.cpp
+    printf "#define BOOST_TEST_DYN_LINK\n#include <boost/test/unit_test.hpp>\n#include <main.hpp>\n\nBOOST_AUTO_TEST_SUITE(test_main)\n\n" >> $projName/test/main_tests.cpp
+    printf "BOOST_AUTO_TEST_CASE(test_testfunc)\n{\n    BOOST_CHECK_EQUAL(1,1);\n}\n\nBOOST_AUTO_TEST_SUITE_END()" >> $projName/test/main_tests.cpp
+fi
+echo "int main (void)" >> $projName/src/main.cpp
+echo "{" >> $projName/src/main.cpp
+echo '  cout << "Hello World!\n";' >> $projName/src/main.cpp
+echo "  return 0;" >> $projName/src/main.cpp
+echo "}" >> $projName/src/main.cpp
+
+echo "see README.md" >> $projName/README
+echo "# $projName" >> $projName/README.md
+echo "" >> $projName/README.md
+echo "## Installation" >> $projName/README.md
+echo "\`\`\`" >> $projName/README.md
+echo "$ ./autogen.sh" >> $projName/README.md
+echo "$ ./configure" >> $projName/README.md
+echo "$ make" >> $projName/README.md
+echo "$ sudo make install" >> $projName/README.md
+if [ "$bUT" = true ]; then
+    echo "$ make check" >> $projName/README.md
+fi
+echo "\`\`\`" >> $projName/README.md
+touch $projName/NEWS
+touch $projName/AUTHORS
+touch $projName/ChangeLog
+
+echo "AUTOMAKE_OPTIONS = gnu" >> $projName/Makefile.am
+if [ "$bUT" = true ]; then
+    echo "SUBDIRS = src test" >> $projName/Makefile.am
+    echo "TESTS = test/${projName}_tests" >> $projName/Makefile.am
+
+    printf "check_PROGRAMS = ${projName}_tests\n${projName}_tests_CPPFLAGS = -I../src/ \${BOOST_CPPFLAGS}\n" >> $projName/test/Makefile.am
+    printf "${projName}_tests_LDFLAGS = \${BOOST_LDFLAGS}\n${projName}_tests_LDADD = \${BOOST_UNIT_TEST_FRAMEWORK_LIB}\n" >> $projName/test/Makefile.am
+    printf "${projName}_tests_SOURCES = runner.cpp main_tests.cpp" >> $projName/test/Makefile.am
+else
+    echo "SUBDIRS = src" >> $projName/Makefile.am
+fi
+echo "bin_PROGRAMS = $projName" >> $projName/src/Makefile.am
+echo "${projName}_SOURCES = main.cpp" >> $projName/src/Makefile.am
+
+echo "--------------------------"
+echo "Project $projName created."
+echo ""
+echo "Configuring autotools build..."
+
+eval cd $projName
+autoscan &>/dev/null
+mv configure.scan configure.ac
+sed -i "/AC_INIT(\[FULL-PACKAGE-NAME\], \[VERSION\], \[BUG-REPORT-ADDRESS\])/a AM_INIT_AUTOMAKE" configure.ac
+sed -i -e "s/FULL-PACKAGE-NAME/$projName/g" configure.ac
+sed -i -e "s/VERSION/$version/g" configure.ac
+sed -i -e "s/BUG-REPORT-ADDRESS/$bugAddress/g" configure.ac
+
+if [ "$bUT" = true ]; then
+    sed -i "/AC_CONFIG_HEADERS/a \n# Specify the directory of additional local Autoconf macros.\nAC_CONFIG_MACRO_DIR([m4])\n" configure.ac
+    sed -i "/# Checks for libraries./a AX_BOOST_BASE([1.47.0])\nAX_BOOST_UNIT_TEST_FRAMEWORK\n" configure.ac
+    eval mkdir m4
+    wget https://raw.githubusercontent.com/JBaczuk/btc_wallet/70e83a713bb7ede296191f6855a8e364286200c1/m4/ax_boost_base.m4 -P m4/
+    wget https://raw.githubusercontent.com/JBaczuk/btc_wallet/70e83a713bb7ede296191f6855a8e364286200c1/m4/ax_boost_unit_test_framework.m4 -P m4/
+fi
+
+echo "#!/bin/bash" >> autogen.sh
+printf "aclocal\nautoreconf -i" >> autogen.sh
+chmod +x autogen.sh
+./autogen.sh
+
+echo ""
+echo "-----------------------"
+echo "Configuration complete."
+echo ""
+echo "Instructions for installation:"
+echo "$ cd $projName"
+echo "$ ./configure"
+echo "$ make"
+echo "$ sudo make install"
