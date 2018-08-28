@@ -4,11 +4,16 @@
 read -p "What is the name of your project? " projName
 read -p "Bug reporting email/url? " bugAddress
 read -p "Boost Unit Tests? yN " boostUnitTests
-version=0.1.0
+read -p "CLI? yN " installCli
+version=0.0.1
 bUT=false;
+cli=false;
 
 if [ "$boostUnitTests" = "Y" ] || [ "$boostUnitTests" = "y" ]; then
     bUT=true;
+fi
+if [ "$installCli" = "Y" ] || [ "$installCli" = "y" ]; then
+    cli=false;
 fi
 
 eval mkdir -p $projName/src
@@ -16,6 +21,9 @@ if [ "$bUT" = true ]; then
     mkdir -p $projName/test
 fi
 echo "#include <iostream>" >> $projName/src/main.cpp
+if [ "$cli" = true ]; then
+    echo "#include <boost/program_options.hpp>" >> $projName/src/main.cpp
+fi
 echo "" >> $projName/src/main.cpp
 echo "using namespace std;" >> $projName/src/main.cpp
 if [ "$bUT" = true ]; then
@@ -38,11 +46,66 @@ if [ "$bUT" = true ]; then
     printf "#define BOOST_TEST_DYN_LINK\n#include <boost/test/unit_test.hpp>\n#include <main.hpp>\n\nBOOST_AUTO_TEST_SUITE(test_main)\n\n" >> $projName/test/main_tests.cpp
     printf "BOOST_AUTO_TEST_CASE(test_testfunc)\n{\n    BOOST_CHECK_EQUAL(1,1);\n}\n\nBOOST_AUTO_TEST_SUITE_END()" >> $projName/test/main_tests.cpp
 fi
-echo "int main (void)" >> $projName/src/main.cpp
+echo "int main (int argc, char* argv[])" >> $projName/src/main.cpp
 echo "{" >> $projName/src/main.cpp
-echo '  cout << "Hello World!\n";' >> $projName/src/main.cpp
-echo "  return 0;" >> $projName/src/main.cpp
-echo "}" >> $projName/src/main.cpp
+echo "int answer = testfunc(1,1);" >> $projName/src/main.cpp
+echo 'cout << "answer: " << answer << endl;' >> $projName/src/main.cpp
+if [ !"$cli" ]; then
+    echo '    try {' >> $projName/src/main.cpp
+    echo '        string command;' >> $projName/src/main.cpp
+    echo '        vector<string> command_params;' >> $projName/src/main.cpp
+    echo '        po::options_description desc("Allowed options");' >> $projName/src/main.cpp
+    echo '        desc.add_options()' >> $projName/src/main.cpp
+    echo '            ("help", "Show this help message")' >> $projName/src/main.cpp
+    echo '            ("verbose,v", po::value<int>()->implicit_value(1),' >> $projName/src/main.cpp
+    echo '                "Enable verbosity (optionally specify level)")' >> $projName/src/main.cpp
+    echo '            ("some_flag,t", po::bool_switch(&some_flag_en)->default_value(false),' >> $projName/src/main.cpp
+    echo '                "Use some_flag configuration")' >> $projName/src/main.cpp 
+    echo '            ("command", po::value< vector<string> >(), "Command")' >> $projName/src/main.cpp
+    echo '        ;\n' >> $projName/src/main.cpp
+    echo '        po::positional_options_description p;' >> $projName/src/main.cpp
+    echo '        p.add("command", -1);' >> $projName/src/main.cpp
+    echo '        po::variables_map vm;' >> $projName/src/main.cpp
+    echo '        po::store(po::command_line_parser(argc, argv).' >> $projName/src/main.cpp
+    echo '            options(desc).positional(p).run(), vm);' >> $projName/src/main.cpp
+    echo '        po::notify(vm);\n' >> $projName/src/main.cpp
+    echo '        if (vm.count("help")) {' >> $projName/src/main.cpp
+    echo '            std::cout << "Usage: options_description [options]\n";' >> $projName/src/main.cpp
+    echo '            std::cout << desc;' >> $projName/src/main.cpp
+    echo '            return 0;' >> $projName/src/main.cpp
+    echo '        }\n' >> $projName/src/main.cpp
+    echo '        if (vm.count("command"))' >> $projName/src/main.cpp
+    echo '        {' >> $projName/src/main.cpp
+    echo '            auto commands = vm["command"].as<vector<string>>();' >> $projName/src/main.cpp
+    echo '            command = commands[0];' >> $projName/src/main.cpp
+    echo '            vector<string> command_params_new(commands.begin() + 1, commands.end());' >> $projName/src/main.cpp
+    echo '            command_params = command_params_new;' >> $projName/src/main.cpp
+    echo '        }\n' >> $projName/src/main.cpp
+    echo '        if (vm.count("verbose")) {' >> $projName/src/main.cpp
+    echo '            std::cout << "Verbosity enabled.  Level is " << vm["verbose"].as<int>() << "\n";' >> $projName/src/main.cpp
+    echo '        {\n' >> $projName/src/main.cpp
+    echo '        // Command Handler' >> $projName/src/main.cpp
+    echo '        if(command == "help")' >> $projName/src/main.cpp
+    echo '            std::cout << "Usage: options_description [options]\n";' >> $projName/src/main.cpp
+    echo '            std::cout << desc;' >> $projName/src/main.cpp
+    echo '            return 0;' >> $projName/src/main.cpp
+    echo '        }\n' >> $projName/src/main.cpp
+    echo '        else' >> $projName/src/main.cpp
+    echo '        {' >> $projName/src/main.cpp
+    echo '            std::cout << "Invalid command." << endl;' >> $projName/src/main.cpp
+    echo '            std::cout << "Usage: options_description [options]\n";' >> $projName/src/main.cpp
+    echo '            std::cout << desc;' >> $projName/src/main.cpp
+    echo '        }\n' >> $projName/src/main.cpp
+    echo '    }' >> $projName/src/main.cpp
+    echo '    catch(std::exception& e)' >> $projName/src/main.cpp
+    echo '    {' >> $projName/src/main.cpp
+    echo '        std::cout << e.what() << "\n";' >> $projName/src/main.cpp
+    echo '        return 1;' >> $projName/src/main.cpp
+    echo '    }\n' >> $projName/src/main.cpp
+    echo '' >> $projName/src/main.cpp
+fi
+echo "    return 0;" >> $projName/src/main.cpp
+echo "}\n" >> $projName/src/main.cpp
 
 echo "see README.md" >> $projName/README
 echo "# $projName" >> $projName/README.md
@@ -74,6 +137,10 @@ else
 fi
 echo "bin_PROGRAMS = $projName" >> $projName/src/Makefile.am
 echo "${projName}_SOURCES = main.cpp" >> $projName/src/Makefile.am
+if [ "$cli" ]; then
+    echo "${projName}_CPPFLAGS = \${${projName}_BUILD_CPPFLAGS}" >> $projName/src/Makefile.am
+    echo "${projName}_LDADD = \${${projName}_LIBS} \${BOOST_SYSTEM_LIBS} \${BOOST_PROGRAM_OPTIONS_LIBS}" >> $projName/src/Makefile.am
+fi
 
 echo "--------------------------"
 echo "Project $projName created."
@@ -90,7 +157,11 @@ sed -i -e "s/BUG-REPORT-ADDRESS/$bugAddress/g" configure.ac
 
 if [ "$bUT" = true ]; then
     sed -i "/AC_CONFIG_HEADERS/a \n# Specify the directory of additional local Autoconf macros.\nAC_CONFIG_MACRO_DIR([m4])\n" configure.ac
+    sed -i "/AC_CONFIG_MACRO_DIR/a \n# Require c++11 for all c++ products.\nAS_CASE([${CC}], [*],\n    [AX_CHECK_COMPILE_FLAG([-std=c++11],\n[CXXFLAGS="$CXXFLAGS -std=c++11"])])" configure.ac
     sed -i "/# Checks for libraries./a AX_BOOST_BASE([1.47.0])\nAX_BOOST_UNIT_TEST_FRAMEWORK\n" configure.ac
+    if [ "$cli" = true ]; then
+        sed -i "/AX_BOOST_UNIT_TEST_FRAMEWORK/a AX_BOOST_PROGRAM_OPTIONS\n" configure.ac
+    fi
     eval mkdir m4
     wget https://raw.githubusercontent.com/JBaczuk/btc_wallet/70e83a713bb7ede296191f6855a8e364286200c1/m4/ax_boost_base.m4 -P m4/
     wget https://raw.githubusercontent.com/JBaczuk/btc_wallet/70e83a713bb7ede296191f6855a8e364286200c1/m4/ax_boost_unit_test_framework.m4 -P m4/
