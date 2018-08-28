@@ -13,9 +13,16 @@ AC_CONFIG_MACRO_DIR([m4])
 # Checks for programs.
 AC_PROG_CXX
 
+# Require c++11 for all c++ products.
+#------------------------------------------------------------------------------
+AS_CASE([${CC}], [*],
+    [AX_CHECK_COMPILE_FLAG([-std=c++11],
+[CXXFLAGS="$CXXFLAGS -std=c++11"])])
+
 # Checks for libraries.
 AX_BOOST_BASE([1.47.0])
 AX_BOOST_UNIT_TEST_FRAMEWORK
+AX_BOOST_PROGRAM_OPTIONS
 
 # Checks for header files.
 
