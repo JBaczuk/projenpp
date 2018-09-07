@@ -129,6 +129,7 @@ if [ "$bUT" = true ]; then
     echo "SUBDIRS = src test" >> $projName/Makefile.am
     echo "TESTS = test/${projName}_tests" >> $projName/Makefile.am
 
+    # this doesn't link boost libraries as expected
     printf "check_PROGRAMS = ${projName}_tests\n${projName}_tests_CPPFLAGS = -I../src/ \${BOOST_CPPFLAGS}\n" >> $projName/test/Makefile.am
     printf "${projName}_tests_LDFLAGS = \${BOOST_LDFLAGS}\n${projName}_tests_LDADD = \${BOOST_UNIT_TEST_FRAMEWORK_LIB}\n" >> $projName/test/Makefile.am
     printf "${projName}_tests_SOURCES = runner.cpp main_tests.cpp" >> $projName/test/Makefile.am
@@ -138,6 +139,7 @@ fi
 echo "bin_PROGRAMS = $projName" >> $projName/src/Makefile.am
 echo "${projName}_SOURCES = main.cpp" >> $projName/src/Makefile.am
 if [ "$cli" ]; then
+    # TODO: update with -lboost_program_options if requested
     echo "${projName}_CPPFLAGS = \${${projName}_BUILD_CPPFLAGS}" >> $projName/src/Makefile.am
     echo "${projName}_LDADD = \${${projName}_LIBS} \${BOOST_SYSTEM_LIBS} \${BOOST_PROGRAM_OPTIONS_LIBS}" >> $projName/src/Makefile.am
 fi
@@ -147,6 +149,7 @@ echo "Project $projName created."
 echo ""
 echo "Configuring autotools build..."
 
+# TODO: update configure.ac to reflect example project
 eval cd $projName
 autoscan &>/dev/null
 mv configure.scan configure.ac
