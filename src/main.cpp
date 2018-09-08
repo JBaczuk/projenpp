@@ -1,6 +1,7 @@
 #include <iostream>
-#include <testfuncs.hpp>
+#include <projenpp.hpp>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 
 using namespace std;
 namespace po = boost::program_options;
@@ -8,6 +9,7 @@ namespace po = boost::program_options;
 int main (int argc, char* argv[])
 {
 	try {
+        std::string appName = boost::filesystem::basename(argv[0]);
         bool some_flag_en;
         string command;
         vector<string> command_params;
@@ -19,8 +21,7 @@ int main (int argc, char* argv[])
                   "Enable verbosity (optionally specify level)")
             ("some_flag,t", po::bool_switch(&some_flag_en)->default_value(false),
                   "Use some_flag configuration")
-            ("command", po::value< vector<string> >(), "Command")
-        ;
+            ("command", po::value< vector<string> >(), "Command");
 
         po::positional_options_description p;
         p.add("command", -1);
@@ -31,7 +32,9 @@ int main (int argc, char* argv[])
         po::notify(vm);
 
         if (vm.count("help")) {
-            std::cout << "Usage: options_description [options]\n";
+            std::cout << "Projen++\n";
+            std::cout << "Generate and configure C++ Programs\n\n";
+            std::cout << "Usage: command [options]\n";
             std::cout << desc;
             return 0;
         }
@@ -56,14 +59,21 @@ int main (int argc, char* argv[])
         // Command Handler
         if(command == "help")
         {
-            std::cout << "Usage: options_description [options]\n";
+            std::cout << "Usage: command [options]\n";
+            std::cout << "\ninit        Initialize Project\n";
             std::cout << desc;
+            return 0;
+        }
+        if(command == "init")
+        {
+            Project project;
+            project.initializeProject();
             return 0;
         }
         else
         {
             std::cout << "Invalid command." << endl;
-            std::cout << "Usage: options_description [options]\n";
+            std::cout << "Usage: command [options]\n";
             std::cout << desc;
         }
 
