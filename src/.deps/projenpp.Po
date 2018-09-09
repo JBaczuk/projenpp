@@ -137,7 +137,11 @@ projenpp.o: projenpp.cpp /usr/include/stdc-predef.h projenpp.hpp \
  /usr/include/c++/7/bits/ostream.tcc /usr/include/c++/7/istream \
  /usr/include/c++/7/bits/istream.tcc \
  /usr/include/x86_64-linux-gnu/sys/stat.h \
- /usr/include/x86_64-linux-gnu/bits/stat.h
+ /usr/include/x86_64-linux-gnu/bits/stat.h /usr/include/c++/7/fstream \
+ /usr/include/c++/7/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/c++io.h \
+ /usr/include/c++/7/bits/fstream.tcc
 
 /usr/include/stdc-predef.h:
 
@@ -484,3 +488,13 @@ projenpp.hpp:
 /usr/include/x86_64-linux-gnu/sys/stat.h:
 
 /usr/include/x86_64-linux-gnu/bits/stat.h:
+
+/usr/include/c++/7/fstream:
+
+/usr/include/c++/7/bits/codecvt.h:
+
+/usr/include/x86_64-linux-gnu/c++/7/bits/basic_file.h:
+
+/usr/include/x86_64-linux-gnu/c++/7/bits/c++io.h:
+
+/usr/include/c++/7/bits/fstream.tcc:
