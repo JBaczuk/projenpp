@@ -78,6 +78,16 @@ int Project::generateProject()
     if (installUnitTest) status = createUnitTests();
     status = createReadme();
     // TODO: Create GNU required folders/files
+    std::ofstream newsFile;
+    newsFile.open((projName + "/NEWS").c_str());
+    newsFile.close();
+    std::ofstream authorsFile;
+    authorsFile.open((projName + "/AUTHORS").c_str());
+    authorsFile.close();
+    std::ofstream changeLogFile;
+    changeLogFile.open((projName + "/ChangeLog").c_str());
+    changeLogFile.close();
+
     status = createMakefiles();
     status = configureAutotools();
 
@@ -228,6 +238,7 @@ int Project::createReadme()
     readmeFile << readme;
     readmeFile.close();
 
+    // TODO: explain more about how to run the cli program and run tests if applicable
     std::string readmeMd =
     "## Installation"
     "```"
@@ -246,6 +257,48 @@ int Project::createReadme()
 int Project::createMakefiles()
 {
     int status = 0;
+    
+    std::string mainMakefile =
+    "AUTOMAKE_OPTIONS = gnu\n"
+    "SUBDIRS = src test\n"
+    "TESTS = test/" + projName + "_tests\n";
+
+    std::ofstream mainMakefileFile;
+    mainMakefileFile.open((projName + "/Makefile.am").c_str());
+    mainMakefileFile << mainMakefile;
+    mainMakefileFile.close();
+
+    std::string srcMakefile;
+    if (installUnitTest)
+    {
+        srcMakefile =
+        "bin_PROGRAMS = " + projName + "\n"
+        "" + projName + "_SOURCES = main.cpp\n"
+        "" + projName + "_LDADD = -lboost_program_options -lboost_filesystem -lboost_system\n";
+
+        std::string testMakefile =
+        "" + projName + "_tests_CPPFLAGS = -I../src/ ${BOOST_CPPFLAGS}\n"
+        "" + projName + "_tests_LDFLAGS = ${BOOST_LDFLAGS}\n"
+        "" + projName + "_tests_LDADD = ${BOOST_UNIT_TEST_FRAMEWORK_LIB}\n"
+        "" + projName + "_tests_SOURCES = ../src/testfuncs.cpp runner.cpp " + projName + "_tests.cpp\n";
+
+        std::ofstream testMakefileFile;
+        testMakefileFile.open((projName + "/test/Makefile.am").c_str());
+        testMakefileFile << testMakefile;
+        testMakefileFile.close();
+    }
+    else
+    {
+        srcMakefile =
+        "bin_PROGRAMS = " + projName + "\n"
+        "projenpp_SOURCES = main.cpp\n";
+    }
+
+    std::ofstream srcMakefileFile;
+    srcMakefileFile.open((projName + "/src/Makefile.am").c_str());
+    srcMakefileFile << srcMakefile;
+    srcMakefileFile.close();
+    
     return status;
 }
 
