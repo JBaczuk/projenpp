@@ -8,7 +8,7 @@ public:
     /* Members */
     std::string projName; 
     std::string bugAddress;
-    bool installBoost;
+    bool installUnitTest;
     bool installCli;
     std::string version;
 
@@ -17,6 +17,11 @@ public:
 
     int initializeProject();
     int generateProject();
+    int createMain();
+    int createUnitTests();
+    int createReadme();
+    int createMakefiles();
+    int configureAutotools();
 
 }; // class project
 #endif
