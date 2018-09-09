@@ -191,7 +191,7 @@ int Project::createMain()
         "}\n";
     
     }
-    
+
     std::ofstream mainFile;
     mainFile.open((projName + "/src/"  + "main.cpp").c_str());
     mainFile << mainHeader;
@@ -204,12 +204,42 @@ int Project::createMain()
 int Project::createUnitTests()
 {
     int status = 0;
+
+    std::string runner =
+    "#define BOOST_AUTO_TEST_MAIN\n"
+    "#define BOOST_TEST_DYN_LINK\n"
+    "#include <boost/test/auto_unit_test.hpp>\n";
+    std::ofstream runnerFile;
+    runnerFile.open((projName + "/test/" + "runner.cpp").c_str());
+    runnerFile << runner;
+    runnerFile.close();
+
     return status;
 }
 
 int Project::createReadme()
 {
     int status = 0;
+
+    std::string readme =
+    "see README.md";
+    std::ofstream readmeFile;
+    readmeFile.open((projName + "/README").c_str());
+    readmeFile << readme;
+    readmeFile.close();
+
+    std::string readmeMd =
+    "## Installation"
+    "```"
+    "$ ./autogen.sh\n"
+    "$ ./configure\n"
+    "$ make\n"
+    "$ sudo make install";
+    std::ofstream readmeMdFile;
+    readmeMdFile.open((projName + "/README.md").c_str());
+    readmeMdFile << readmeMd;
+    readmeMdFile.close();
+
     return status;
 }
 
