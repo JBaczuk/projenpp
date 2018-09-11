@@ -2,6 +2,9 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <fstream>
+#include <cerrno>
+#include <cstring>
+#include <sstream>
 
 int Project::initializeProject()
 {
@@ -77,7 +80,8 @@ int Project::generateProject()
     status = createMain();
     if (installUnitTest) status = createUnitTests();
     status = createReadme();
-    // TODO: Create GNU required folders/files
+    
+    // Create GNU required folders/files
     std::ofstream newsFile;
     newsFile.open((projName + "/NEWS").c_str());
     newsFile.close();
@@ -305,5 +309,43 @@ int Project::createMakefiles()
 int Project::configureAutotools()
 {
     int status = 0;
+
+    status = system(("autoscan " + projName).c_str());
+    status = rename((projName + "/configure.scan").c_str(), (projName + "/configure.ac").c_str());
+    // TODO: Use this as a template for error handling (TYP)
+    if (status != 0) 
+    {
+        std::cerr << "Error renaming file: " << projName + "/configure.scan. " << std::strerror(errno) << std::endl;
+        return status;
+    }
+
+    // TODO: replace and insert content into configure.ac
+    std::ifstream infile(projName + "/configure.ac");
+    std::ofstream outfile(projName + "/configure.ac.tmp");
+
+    std::string line;
+    while (std::getline(infile, line))
+    {
+        std::istringstream iss(line);
+        if (line.find("AC_INIT([FULL-PACKAGE-NAME]") != std::string::npos)
+        {
+            std::string fullPackageNameStr = "FULL-PACKAGE-NAME";
+            std::string versionStr = "VERSION";
+            std::string bugReportAddressStr = "BUG-REPORT-ADDRESS";
+            line.replace(line.find(fullPackageNameStr), fullPackageNameStr.length(), projName);
+            line.replace(line.find(versionStr), versionStr.length(), version);
+            line.replace(line.find(bugReportAddressStr), bugReportAddressStr.length(), bugAddress);
+            outfile << line << std::endl;
+        }
+        else
+        {
+            outfile << line << std::endl;
+        }
+    }
+    infile.close();
+    outfile.close();
+    remove((projName + "/configure.ac").c_str());
+    rename((projName + "/configure.ac.tmp").c_str(), (projName + "/configure.ac").c_str());
+
     return status;
 }

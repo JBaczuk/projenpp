@@ -141,7 +141,11 @@ projenpp.o: projenpp.cpp /usr/include/stdc-predef.h projenpp.hpp \
  /usr/include/c++/7/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/c++io.h \
- /usr/include/c++/7/bits/fstream.tcc
+ /usr/include/c++/7/bits/fstream.tcc /usr/include/c++/7/cstring \
+ /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
+ /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc
 
 /usr/include/stdc-predef.h:
 
@@ -498,3 +502,17 @@ projenpp.hpp:
 /usr/include/x86_64-linux-gnu/c++/7/bits/c++io.h:
 
 /usr/include/c++/7/bits/fstream.tcc:
+
+/usr/include/c++/7/cstring:
+
+/usr/include/string.h:
+
+/usr/include/strings.h:
+
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:
+
+/usr/include/c++/7/sstream:
+
+/usr/include/c++/7/bits/sstream.tcc:
