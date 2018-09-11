@@ -1,4 +1,0 @@
-projenpp_tests-testfuncs.o: ../src/testfuncs.cpp \
- /usr/include/stdc-predef.h
-
-/usr/include/stdc-predef.h:
