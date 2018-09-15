@@ -5,6 +5,9 @@
 #include <cerrno>
 #include <cstring>
 #include <sstream>
+#include <util.hpp>
+#include <future>
+#include <vector>
 
 int Project::initializeProject()
 {
@@ -337,6 +340,54 @@ int Project::configureAutotools()
             line.replace(line.find(bugReportAddressStr), bugReportAddressStr.length(), bugAddress);
             outfile << line << std::endl;
         }
+        if (line.find("AC_CONFIG_HEADERS") != std::string::npos && installCli)
+        {
+            std::string cConfigureAcStr =
+            "# Specify the directory of additional local Autoconf macros.\n"
+            "AC_CONFIG_MACRO_DIR([m4])\n"
+            "\n"
+            "# Checks for programs.\n"
+            "AC_PROG_CXX\n"
+            "\n"
+            "# Check for baseline language coverage in the compiler for the C++11 standard.\n"
+            "#------------------------------------------------------------------------------\n"
+            "AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])\n"
+            "\n"
+            "# Require c++11 for all c++ products.\n"
+            "#------------------------------------------------------------------------------\n"
+            "AS_CASE([${CC}], [*],\n"
+            "    [AX_CHECK_COMPILE_FLAG([-std=c++11],\n"
+            "[CXXFLAGS=\"$CXXFLAGS -std=c++11\"])])\n"
+            "\n"
+            "# Check for pkg-config.\n"
+            "PKG_PROG_PKG_CONFIG\n"
+            "AS_IF([test -n \"$PKG_CONFIG\"], [],\n"
+            "    [AC_MSG_ERROR([pkg-config is required but was not found.])])\n"
+            "\n";
+          //  outfile << cConfigureAcStr << std::endl;
+            if(installUnitTest || installCli)
+            {
+                std::string boostConfigureAcStr =
+                "# Boost\n"
+                "# ---------------------\n"
+                "AX_BOOST_BASE([1.47.0])\n"
+                "\n"
+                "AX_BOOST_SYSTEM";
+               // outfile << boostConfigureAcStr << std::endl;
+            }
+            if(installCli)
+            {
+                std::string boostCliConfigureAcStr =
+                "AX_BOOST_PROGRAM_OPTIONS";
+              //  outfile << boostCliConfigureAcStr << std::endl;
+            }
+            if(installUnitTest)
+            {
+                std::string boostUnitTestConfigureAcStr =
+                "AX_BOOST_UNIT_TEST_FRAMEWORK";
+              // outfile << boostUnitTestConfigureAcStr << std::endl;
+            }
+        }
         else
         {
             outfile << line << std::endl;
@@ -346,6 +397,27 @@ int Project::configureAutotools()
     outfile.close();
     remove((projName + "/configure.ac").c_str());
     rename((projName + "/configure.ac.tmp").c_str(), (projName + "/configure.ac").c_str());
+
+    // TODO: Download m4 files
+    std::string dirToCreate = (projName + "/m4");
+    status = mkdir(dirToCreate.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    
+    std::string boostBaseM4File = projName + "/m4/ax_boost_base.m4";
+    std::string boostUnitTestM4File = projName + "/m4/ax_boost_unit_test_framework.m4";
+
+    std::vector<std::string> urls;
+    urls.push_back("http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_boost_base.m4");
+    urls.push_back("http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_boost_unit_test_framework.m4");
+    std::vector<std::string> filepaths;
+    filepaths.push_back(projName + "/m4/ax_boost_base.m4");
+    filepaths.push_back(projName + "/m4/ax_boost_unit_test_framework.m4");
+    downloadFiles(urls, filepaths);
+
+    // Create autogen.sh
+    std::ofstream autogenShFile;
+    autogenShFile.open((projName + "/autogen.sh").c_str());
+    autogenShFile << "#!/bin/bash\naclocal\nautoreconf -i\n";
+    autogenShFile.close();
 
     return status;
 }
