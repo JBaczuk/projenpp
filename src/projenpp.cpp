@@ -231,6 +231,22 @@ int Project::createUnitTests()
     runnerFile << runner;
     runnerFile.close();
 
+    std::string testMain =
+    "#define BOOST_TEST_DYN_LINK\n"
+    "#include <boost/test/unit_test.hpp>\n"
+    "#include <testfuncs.hpp>\n\n"
+    "BOOST_AUTO_TEST_SUITE(test_testfuncs)\n\n"
+    "BOOST_AUTO_TEST_CASE(test_testfunc)\n"
+    "{\n"
+    "int answer = testfunc(1,1);\n"
+    "BOOST_CHECK_EQUAL(2,answer);\n"
+    "}\n\n"
+    "BOOST_AUTO_TEST_SUITE_END()\n";
+    std::ofstream testFile;
+    testFile.open((projName + "/test/" + projName + "_tests.cpp").c_str());
+    testFile << testMain;
+    testFile.close();
+
     return status;
 }
 
@@ -284,10 +300,11 @@ int Project::createMakefiles()
         "" + projName + "_LDADD = -lboost_program_options -lboost_filesystem -lboost_system\n";
 
         std::string testMakefile =
+        "check_PROGRAMS = " + projName + "_tests\n"
         "" + projName + "_tests_CPPFLAGS = -I../src/ ${BOOST_CPPFLAGS}\n"
         "" + projName + "_tests_LDFLAGS = ${BOOST_LDFLAGS}\n"
         "" + projName + "_tests_LDADD = ${BOOST_UNIT_TEST_FRAMEWORK_LIB}\n"
-        "" + projName + "_tests_SOURCES = ../src/testfuncs.cpp runner.cpp " + projName + "_tests.cpp\n";
+        "" + projName + "_tests_SOURCES = runner.cpp " + projName + "_tests.cpp\n";
 
         std::ofstream testMakefileFile;
         testMakefileFile.open((projName + "/test/Makefile.am").c_str());
@@ -339,9 +356,11 @@ int Project::configureAutotools()
             line.replace(line.find(versionStr), versionStr.length(), version);
             line.replace(line.find(bugReportAddressStr), bugReportAddressStr.length(), bugAddress);
             outfile << line << std::endl;
+            outfile << "AM_INIT_AUTOMAKE" << std::endl;
         }
-        else if (line.find("AC_CONFIG_HEADERS") != std::string::npos && installCli)
+        else if (line.find("AC_CONFIG_SRCDIR") != std::string::npos)
         {
+            outfile << line << std::endl;
             std::string cConfigureAcStr =
             "# Specify the directory of additional local Autoconf macros.\n"
             "AC_CONFIG_MACRO_DIR([m4])\n"
