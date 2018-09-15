@@ -418,6 +418,7 @@ int Project::configureAutotools()
     autogenShFile.open((projName + "/autogen.sh").c_str());
     autogenShFile << "#!/bin/bash\naclocal\nautoreconf -i\n";
     autogenShFile.close();
+    status = system(("chmod +x " + projName + "/autogen.sh").c_str());
 
     return status;
 }
