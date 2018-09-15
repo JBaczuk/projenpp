@@ -340,7 +340,7 @@ int Project::configureAutotools()
             line.replace(line.find(bugReportAddressStr), bugReportAddressStr.length(), bugAddress);
             outfile << line << std::endl;
         }
-        if (line.find("AC_CONFIG_HEADERS") != std::string::npos && installCli)
+        else if (line.find("AC_CONFIG_HEADERS") != std::string::npos && installCli)
         {
             std::string cConfigureAcStr =
             "# Specify the directory of additional local Autoconf macros.\n"
