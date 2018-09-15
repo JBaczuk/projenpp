@@ -4,9 +4,16 @@
 Projen++ generates a working c++ program that sets up autotools such as autoconf and make.
 
 ## Features
+<<<<<<< HEAD
 * CLI (Optional) - uses Boost Program Options
 * Boost Unit Test Framework (Optional)
 * Autotools
+=======
+
+## Dependencies
+Requires Boost TODO:  
+`$ sudo apt-get install libboost-all-dev`
+>>>>>>> bbec19c8a5566d1a084c94ca4a4b27ddee550214
 
 ## Installation
 Download the latest binary on the [Releases Page](https://github.com/JBaczuk/projenpp/releases)
