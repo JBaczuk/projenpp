@@ -56,6 +56,11 @@ int Project::generateProject()
     // Create project folders
     dirToCreate = projName;
     status = mkdir(dirToCreate.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    if (status != 0) 
+    {
+        std::cerr << "Error creating folder: " << dirToCreate << std::strerror(errno) << std::endl;
+        return status;
+    }
     // TODO: more concise error handling? (typ)
     if (status < 0)
     {
@@ -64,9 +69,9 @@ int Project::generateProject()
     }
     dirToCreate = (projName + "/src");
     status = mkdir(dirToCreate.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-    if (status < 0)
+    if (status != 0) 
     {
-        std::cerr << "Error creating directory " << dirToCreate<< std::endl;
+        std::cerr << "Error creating folder: " << dirToCreate << std::strerror(errno) << std::endl;
         return status;
     }
     if (installUnitTest)
@@ -81,8 +86,18 @@ int Project::generateProject()
     }
 
     status = createMain();
+    if (status != 0) 
+    {
+        std::cerr << "createMain() failed: " << std::strerror(errno) << std::endl;
+        return status;
+    }
     if (installUnitTest) status = createUnitTests();
     status = createReadme();
+    if (status != 0) 
+    {
+        std::cerr << "createReadme() failed: " << std::strerror(errno) << std::endl;
+        return status;
+    }
     
     // Create GNU required folders/files
     std::ofstream newsFile;
@@ -96,7 +111,17 @@ int Project::generateProject()
     changeLogFile.close();
 
     status = createMakefiles();
+    if (status != 0) 
+    {
+        std::cerr << "createMakefiles() failed: " << std::strerror(errno) << std::endl;
+        return status;
+    }
     status = configureAutotools();
+    if (status != 0) 
+    {
+        std::cerr << "configureAutotools() failed: " << std::strerror(errno) << std::endl;
+        return status;
+    }
 
     return status;
 }
@@ -331,7 +356,17 @@ int Project::configureAutotools()
     int status = 0;
 
     status = system(("autoscan " + projName).c_str());
+    if (status != 0) 
+    {
+        std::cerr << "autoscan failed: " << std::strerror(errno) << std::endl;
+        return status;
+    }
     status = rename((projName + "/configure.scan").c_str(), (projName + "/configure.ac").c_str());
+    if (status != 0) 
+    {
+        std::cerr << "rename failed: " << projName + "/configure.scan" << std::strerror(errno) << std::endl;
+        return status;
+    }
     // TODO: Use this as a template for error handling (TYP)
     if (status != 0) 
     {
@@ -420,6 +455,11 @@ int Project::configureAutotools()
     // TODO: Download m4 files
     std::string dirToCreate = (projName + "/m4");
     status = mkdir(dirToCreate.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    if (status != 0) 
+    {
+        std::cerr << "Error mkdir failed: " << dirToCreate << std::strerror(errno) << std::endl;
+        return status;
+    }
     
     std::string boostBaseM4File = projName + "/m4/ax_boost_base.m4";
     std::string boostUnitTestM4File = projName + "/m4/ax_boost_unit_test_framework.m4";
@@ -438,6 +478,11 @@ int Project::configureAutotools()
     autogenShFile << "#!/bin/bash\naclocal\nautoreconf -i\n";
     autogenShFile.close();
     status = system(("chmod +x " + projName + "/autogen.sh").c_str());
+    if (status != 0) 
+    {
+        std::cerr << "Error chmod +x " << projName << "/autgen.sh failed" << std::strerror(errno) << std::endl;
+        return status;
+    }
 
     return status;
 }
