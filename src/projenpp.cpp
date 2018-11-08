@@ -297,7 +297,7 @@ int Project::createMakefiles()
         srcMakefile =
         "bin_PROGRAMS = " + projName + "\n"
         "" + projName + "_SOURCES = main.cpp\n"
-        "" + projName + "_LDADD = -lboost_program_options -lboost_filesystem -lboost_system\n";
+        "" + projName + "_LDADD = -lboost_program_options -lboost_filesystem -lboost_system -lboost_unit_test_framework\n";
 
         std::string testMakefile =
         "check_PROGRAMS = " + projName + "_tests\n"
