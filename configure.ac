@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([projenpp], [0.1.0], [https://github.com/JBaczuk/projenpp/issues])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE(subdir-objects)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_HEADERS([config.h])
 
