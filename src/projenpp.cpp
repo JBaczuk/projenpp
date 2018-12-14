@@ -41,7 +41,7 @@ int Project::initializeProject()
     {
         installCli = false;
     }
-    version = "0.0.1";
+    version = "1.0.0";
 
     generateProject();
 
