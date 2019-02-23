@@ -25,8 +25,12 @@ AS_CASE([${CC}], [*],
 
 # Check for pkg-config.
 PKG_PROG_PKG_CONFIG
-AS_IF([test -n "$PKG_CONFIG"], [],
+AS_IF([test -n "$PKG_CONFIG"],,
     [AC_MSG_ERROR([pkg-config is required but was not found.])])
+
+# Curl
+AX_PATH_GENERIC(curl,7.58.0,,,
+    [AC_MSG_ERROR([libcurl is required but was not found.])])
 
 # Boost
 # ---------------------
