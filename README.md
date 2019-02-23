@@ -16,7 +16,7 @@ Download the latest binary on the [Releases Page](https://github.com/JBaczuk/pro
 ## Build from Source
 ### Dependencies
 Requires Boost, curl, autotools, gcc  
-`$ sudo apt-get install build-essential autotools-dev automake autoconf pkg-config libboost-all-dev`
+`$ sudo apt-get install build-essential autotools-dev automake autoconf pkg-config libboost-all-dev libcurl4-gnutls-dev`
 
 ### Build
 ```
