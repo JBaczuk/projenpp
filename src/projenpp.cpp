@@ -389,21 +389,26 @@ int Project::configureAutotools()
                 std::string boostConfigureAcStr =
                 "# Boost\n"
                 "# ---------------------\n"
-                "AX_BOOST_BASE([1.47.0])\n"
+                "AX_BOOST_BASE([1.47.0],,[AC_MSG_ERROR([boost >= 1.47.0 required but not found])])\n"
                 "\n"
-                "AX_BOOST_SYSTEM";
+                "AX_BOOST_SYSTEM\n"
+		"if \"x$HAVE_BOOST_SYSTEM\" = \"x\"; then"
+    		"    AC_MSG_ERROR([boost system library is required but not found])\nfi"
+		;
                // outfile << boostConfigureAcStr << std::endl;
             }
             if(installCli)
             {
                 std::string boostCliConfigureAcStr =
-                "AX_BOOST_PROGRAM_OPTIONS";
+                "AX_BOOST_PROGRAM_OPTIONS"
+		;	
               //  outfile << boostCliConfigureAcStr << std::endl;
             }
             if(installUnitTest)
             {
                 std::string boostUnitTestConfigureAcStr =
                 "AX_BOOST_UNIT_TEST_FRAMEWORK";
+		;	
               // outfile << boostUnitTestConfigureAcStr << std::endl;
             }
         }

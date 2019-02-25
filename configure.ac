@@ -34,7 +34,8 @@ AX_PATH_GENERIC(curl,7.58.0,,,
 
 # Boost
 # ---------------------
-AX_BOOST_BASE([1.47.0])
+AX_BOOST_BASE([1.47.0],,
+    [AC_MSG_ERROR([boost >= 1.47.0 required but not found])])
 
 AX_BOOST_SYSTEM
 AX_BOOST_PROGRAM_OPTIONS
